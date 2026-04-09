@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PNUD_GWALHOBBANG</title>
 <style>
-/* 기존 CSS 스타일 유지 (생략 없이 그대로 사용하세요) */
 :root {
   --blue: #1a56db;
   --blue-light: #f0f7ff;
@@ -30,7 +29,6 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
 .main-menu-btn.collapsed::after { transform: rotate(-90deg); }
 #sub-menu-container { display: block; overflow: hidden; }
 
-/* ── 수정된 서브메뉴 스타일 (클릭 가능하도록) ── */
 .sub-chapter-btn {
   padding: 14px 20px 14px 35px;
   font-weight: 700;
@@ -54,13 +52,42 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
 .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 13px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .btn-primary { background: var(--blue); color: #fff; }
 .btn-secondary { background: #fff; border: 1px solid var(--border); color: var(--gray); }
+
 .t-h1 { background: var(--blue); color: #fff; font-size: 16px; font-weight: 700; padding: 12px 16px; border-radius: 7px; margin: 40px 0 15px; }
 .t-h2 { background: var(--blue-light); color: var(--blue-dark); font-size: 14.5px; font-weight: 700; padding: 10px 16px; border-left: 4px solid var(--blue); margin: 30px 0 10px; }
-.t-item, .t-blue { background: #fff; border: 1px solid var(--border); padding: 10px 15px 10px 25px; border-radius: 7px; margin-bottom: 8px; position: relative; }
+
+/* ── 항목 스타일 수정 (가로폭 고정 해제 및 자동 줄바꿈) ── */
+.t-item, .t-blue { 
+  background: #fff; 
+  border: 1px solid var(--border); 
+  padding: 10px 15px 10px 25px; 
+  border-radius: 7px; 
+  margin-bottom: 8px; 
+  position: relative;
+  /* 핵심 수정: 문장 단위 줄바꿈 최적화 */
+  word-break: keep-all; 
+  overflow-wrap: anywhere; 
+}
 .t-item::before { content:'•'; position:absolute; left:10px; color:var(--blue); }
 .t-blue { border-left: 4px solid var(--blue); background: #f8fbff; }
-.blank { display: inline-block; background: #1a1a2e; color: transparent; border-radius: 4px; padding: 2px 8px; cursor: pointer; min-width: 45px; text-align: center; transition: 0.2s; font-weight: 600; user-select: none; }
+
+/* ── 빈칸(괄호) 스타일 수정 (덩어리 현상 방지) ── */
+.blank { 
+  display: inline; /* inline-block에서 inline으로 변경하여 텍스트 흐름 유지 */
+  background: #1a1a2e; 
+  color: transparent; 
+  border-radius: 4px; 
+  padding: 2px 6px; 
+  cursor: pointer; 
+  transition: 0.2s; 
+  font-weight: 600; 
+  user-select: none;
+  /* 줄이 바뀌어도 배경색이 유지되도록 설정 */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
 .blank.open { background: #dcfce7; color: #166534; border: 1.5px solid #86efac; }
+
 @media (max-width: 600px) {
   .mobile-hdr { display: flex; }
   .sidebar { transform: translateX(-100%); top: 50px; }
@@ -772,7 +799,7 @@ const CHAPTER_DATA = {
 
   // 2. 단비족 4장 데이터를 아래 [ ] 안에 붙여넣으세요.
   chap4: [
-    ["h1", "Chapter 4. 진단과 치료계획"],
+  ["h1", "Chapter 4. 진단과 치료계획"],
 
   // ===== 개요 =====
   ["item", "진단이란 의사가 환자를 진찰하여 병의 상태를 판단하는 것을 말한다."],
@@ -787,12 +814,12 @@ const CHAPTER_DATA = {
   ["h2", "1) 주소 (Chief complaint)"],
 
   ["item", "[[주소]]는 환자가 치료를 위해 치과의사를 찾아온 이유로 반드시 환자의 말로 기술되어야 한다."],
-  ["item", "일반적으로 주소는 [[동통, 종창, 기능 상실, 심미]] 등에 관한 것이며, 때로는 “[[방사선 상에 나타난 무엇]]” 때문에 치과의사를 찾아왔을 수도 있다."],
+  ["item", "일반적으로 주소는 [[동통]], [[종창]], [[기능 상실]], [[심미]] 등에 관한 것이며, 때로는 “[[방사선 상에 나타난 무엇]]” 때문에 치과의사를 찾아왔을 수도 있다."],
 
   // 동통
   ["h2", "동통"],
   ["item", "환자의 주소는 대부분 [[동통]]에 대한 것이며, 동통에 대한 분별력 있는 질문으로 쉽게 잠정적인 진단을 할 수 있다."],
-  ["item", "동통의 [[종류, 위치, 지속시간, 원인, 동통을 진정시키는 것,]] 그리고 다른 곳에 [[연관통]]이 나타나는지 여부를 물어보아야 한다."],
+  ["item", "동통의 [[종류]], [[위치]], [[지속시간]], [[원인]], [[동통을 진정시키는 것]] 그리고 다른 곳에 [[연관통]]이 나타나는지 여부를 물어보아야 한다."],
   ["item", "치수 동통은 기본적인 통각기전에 의한 것으로,"],
   ["blue", "날카롭게 찌르는 듯하고 쑤시는 동통([[sharp pain]])이거나, 둔하고 짜증나게 하며 뻐근하거나 진저리나게 하는 통증([[dull pain]])을 호소한다."],
   ["blue", "전자는 대개 치수의 [[‘A 델타’ 신경섬유]]의 흥분과 관련이 있고, 후자는 치수의 [[‘C’ 신경섬유]]의 흥분과 느린 전달에 관계가 있다."],
@@ -810,8 +837,8 @@ const CHAPTER_DATA = {
 
   // 2) 의학 병력
   ["h2", "2) 의학 병력"],
-  ["blue", "[[인공심장판막 환자, 류마티스성 열의 병력]]이나 [[후천성 면역결핍증]]과 같은 전신 질환자는 대부분의 치과 시술 시 일어날 수 있는 [[균혈증]]으로 인하여 [[아급성 세균심내막염]] 또는 시술 부위의 감염을 예방하기 위하여 [[예방적 항생제 투여]]가 요구된다."],
-  ["blue", "American Heart Association의 권고(2007년)에 의하면 [[amoxicillin 2.0g을 시술 1시간 전에 투여]]하거나, penicillin/amoxicillin allergy가 있는 환자는 [[clindamycin 600mg, cephalexin 2g, azithromycin 500mg 또는 clarithromycin 500mg]]을 [[시술 1시간 전에 경구투여]]한다."],
+  ["blue", "[[인공심장판막 환자]], [[류마티스성 열의 병력]]이나 [[후천성 면역결핍증]]과 같은 전신 질환자는 대부분의 치과 시술 시 일어날 수 있는 [[균혈증]]으로 인하여 [[아급성 세균심내막염]] 또는 시술 부위의 감염을 예방하기 위하여 [[예방적 항생제 투여]]가 요구된다."],
+  ["blue", "American Heart Association의 권고(2007년)에 의하면 [[amoxicillin 2.0g을 시술 1시간 전에 투여]]하거나, penicillin/amoxicillin allergy가 있는 환자는 [[clindamycin 600mg]], [[cephalexin 2g]], [[azithromycin 500mg]] 또는 [[clarithromycin 500mg]]을 [[시술 1시간 전에 경구투여]]한다."],
   ["item", "의학 병력으로 인한 근관치료의 금기증은 없으나, 조절되지 않는 당뇨병이나 최근에 발작한 경험이 있는 협심증을 가진 경우 등은 주의를 요하며, 환자의 의학 병력으로 인하여 환자의 주치의나 내과 전문의와 상담을 요하거나 예방적 투약을 요하는 경우가 있다."],
   ["blue", "골다공증 치료제인 [[bisphosphonate]] 투약을 하는 환자는 [[BRONJ(bisphosphonate-related osteonecrosis of the jaw)]]의 발생 가능성이 높으므로, 외과적 근관치료를 요하는 경우에는 [[투약 중단]]과 함께 환자의 주치의와 상의하여야 한다."],
 
@@ -821,11 +848,11 @@ const CHAPTER_DATA = {
 
   ["h2", "1) 구강 외 검사"],
   ["item", "구강 외 검사는 환자의 병력을 채득하는 동안 구강 외 시진으로부터 시작한다."],
-  ["item", "특히 [[안면의 불균형, 종창 및 누공형성 여부]] 등을 주의 깊게 관찰한다."],
+  ["item", "특히 [[안면의 불균형]], [[종창]] 및 [[누공형성 여부]] 등을 주의 깊게 관찰한다."],
 
   ["h2", "2-1) 시진과 촉감 검사 (visual & tactile inspection)"],
   ["item", "눈, 손가락, 탐침을 이용하여 치은이나 혀와 같은 연조직 검사, 구강 내 종창, 치아와 치열 상태 등을 관찰한다."],
-  ["blue", "[[3C]], 즉 [[색조 color, 외형 contour, 견실성 consistency]] 등을 확인하는 경조직과 연조직에 대한 빈틈없는 시진과 촉감 검사가 중요하다."],
+  ["blue", "[[3C]], 즉 [[색조 color]], [[외형 contour]], [[견실성 consistency]] 등을 확인하는 경조직과 연조직에 대한 빈틈없는 시진과 촉감 검사가 중요하다."],
   ["item", "일반적으로 환자의 치아와 치주조직은 [[밝은 조명]] 속에서 [[건조]]시킨 상태로 검사해야 한다."],
   ["item", "치은과 같은 연조직의 염증이 있는 경우에는 건강한 치은색인 [[분홍색]]과 쉽게 감별되며, 연조직은 부드럽고 파동성이거나 스폰지 같은 [[견실성]]의 변화가 오고, 정상적인 건강하고 단단한 조직의 [[견실성]]과 달라서 병적인 상태 하에 있음을 쉽게 알 수 있다."],
   ["item", "시진 시 이환된 치아의 인접한 [[연조직]]도 포함시켜서 [[종창]]의 여부를 확인하며, 치관부가 근관치료 후 적절히 수복될 수 있는지를 확인한다."],
@@ -833,7 +860,7 @@ const CHAPTER_DATA = {
   ["h2", "2-2) 촉진 (palpation)"],
   ["item", "[[촉진]]은 손가락 끝으로 [[치근단부]]의 점막에 [[가볍게]] 힘을 가하여 만질 때 아픈 여부를 판단하여 염증이 [[치근단조직]]까지 확산되었는가를 조사하는 데 유용하다."],
   ["item", "감염이 치수에 국한되어 있고 치주조직으로 진행되지 않았을 경우에 촉진에 반응이 없다."],
-  ["item", "[[촉진, 타진, 동요도, 눌러보기]] 등은 치수의 염증상태에 대한 검사가 아니라 부착 조직인 치주인대와 치조골과 같은 [[치근단 치주조직]]의 염증상태에 대한 검사이다."],
+  ["item", "[[촉진]], [[타진]], [[동요도]], [[눌러보기]] 등은 치수의 염증상태에 대한 검사가 아니라 부착 조직인 치주인대와 치조골과 같은 [[치근단 치주조직]]의 염증상태에 대한 검사이다."],
 
   ["h2", "2-3) 타진 (percussion)"],
   ["blue", "타진 검사는 기구의 손잡이 부위로 치아를 [[가볍게]] 두드리거나 또는 손가락으로 [[약하게]] 눌러 치아를 둘러싸고 있는 [[치주조직]]의 상태를 평가할 수 있는 검사로 치아가 묵직한 동통을 느끼는지 여부로 판별한다."],
@@ -877,13 +904,13 @@ const CHAPTER_DATA = {
   ["item", "따라서 전기 치수검사는 치수 생활력 정도의 추측과 [[무수치]]의 구분은 할 수 있을 정도이다."],
 
   ["h2", "〈치수 생활력 검사(pulp vitality test)〉"],
-  ["blue", "임상검사 시 치수 생활력 검사는 매우 중요한 부분으로 [[한랭검사, 온열검사, 전기 치수 검사, 와동 형성 검사]]와 같이 상아질을 직접 자극시키는 검사를 들 수 있으며, 그 외 [[pulpal blood flow]]를 재는 방법(laser doppler flowmetry, [[pulse oximetry]], dual wavelength spectrophotometry 등이) 포함될 수 있다."],
+  ["blue", "임상검사 시 치수 생활력 검사는 매우 중요한 부분으로 [[한랭검사]], [[온열검사]], [[전기 치수 검사]], [[와동 형성 검사]]와 같이 상아질을 직접 자극시키는 검사를 들 수 있으며, 그 외 [[pulpal blood flow]]를 재는 방법(laser doppler flowmetry, [[pulse oximetry]], dual wavelength spectrophotometry 등이) 포함될 수 있다."],
   ["item", "일반적으로 치수 생활력은 치수 내의 혈액순환에 의해 결정되며, laser doppler flowmetry, pulse oximetry, dual wavelength spectrophotometry 등이 혈액순환을 검사할 수 있는 실험적 기구로 제시되고 있으나 실제적이고 임상적인 검사 방법으로는 아직 기술적인 한계가 있다."],
 
   ["h2", "〈치수 생활력에 대한 허위 양성(false +) 반응이 나타나는 경우〉"],
   ["item", "[[다근치]]에서 치수가 부분적으로 괴사되어 1개 치근에서 아직 생활 치수를 가진 치아"],
   ["item", "근관 내 [[액화 괴사]]된 치수를 가진 경우"],
-  ["item", "검사할 치아의 [[건조, 격리]]가 되지 않았을 때"],
+  ["item", "검사할 치아의 [[건조]], [[격리]]가 되지 않았을 때"],
   ["item", "[[큰 금속 수복물]] 등으로 인해 전류가 치주조직으로 흐르는 경우"],
 
   ["h2", "〈치수 생활력에 대한 허위 음성(false -) 반응이 나타나는 경우〉"],
@@ -897,7 +924,7 @@ const CHAPTER_DATA = {
 
   ["h2", "〈전기 치수검사를 하는 방법〉"],
   ["item", "① 환자에게 검사에 대해 [[미리 설명]]"],
-  ["item", "② 검사할 치아 주위를 면봉과 타액 배출기로 [[격리, 건조]]"],
+  ["item", "② 검사할 치아 주위를 면봉과 타액 배출기로 [[격리]], [[건조]]"],
   ["item", "③ 전극에 [[전해질(치약)]] 도포하고 치관부의 협면, 절단순면의 법랑질에 댄다. (치아의 충전물, 인접 치은 조직에 닿지 않도록)"],
   ["item", "④ 치아에 최소한의 전류를 흐르게 하여 서서히 전류를 증가시킨다. '[[따끔]]하거나 전류가 흐르는 [[찌릿]]한 감각'을 느끼는지"],
   ["item", "⑤ 검사할 각 치아에 대해 위의 과정을 [[2~3회 반복]], 대조군인 [[정상치]]의 결과와 비교 판정"],
@@ -1011,7 +1038,7 @@ const CHAPTER_DATA = {
 
   ["h2", "2) 이전 근관치료"],
   ["item", "이전의 근관치료가 실패하였거나 부적절하게 된 경우 일반적으로 재치료는 상당히 어렵다."],
-  ["item", "파절된 기구 등에 의한 [[근관 폐쇄, 천공, ledge]] 등과 같은 경우는 재치료가 불가능한 경우가 많이 있으며 장비가 필요한 경우도 있다."],
+  ["item", "파절된 기구 등에 의한 [[근관 폐쇄]], [[천공]], [[ledge]] 등과 같은 경우는 재치료가 불가능한 경우가 많이 있으며 장비가 필요한 경우도 있다."],
 
   ["h2", "2-1) 근관의 폐쇄"],
   ["item", "근관 폐쇄의 원인인 file과 같은 [[기구의 파절]]이나, post, 충전물 등과 같은 근관의 근단부 접근을 막는 물질을 제거하여야 한다."],
@@ -1030,12 +1057,12 @@ const CHAPTER_DATA = {
   ["h2", "3) 치아의 위치"],
   ["item", "치아의 위치에 따라 비외과적 근관치료뿐 아니라 외과적인 근관치료 역시 어려움이 발생할 수 있고, 치료 시작 전에 모든 시술 상 발생할 수 있는 문제점에 대한 대비책을 세워야 한다."],
   ["item", "치아의 위치는 환부로의 [[접근 가능성]]과 다른 [[해부학적 구조와 근접]] 등의 문제를 야기할 수 있다."],
-  ["item", "외과적인 치근단 수술일 경우 해부학적인 구조, 즉 [[mandibular canal, mental foramen, maxillary sinus]] 등을 염두에 두어야 하며 CT 등을 이용하여 위치를 확인할 필요가 있다."],
+  ["item", "외과적인 치근단 수술일 경우 해부학적인 구조, 즉 [[mandibular canal]], [[mental foramen]], [[maxillary sinus]] 등을 염두에 두어야 하며 CT 등을 이용하여 위치를 확인할 필요가 있다."],
 
   ["h2", "4) 치수 및 치근단 병소의 상태"],
   ["item", "치수의 생활력 여부, 치근단 병소의 크기, 종류 등에 따라 근관치료의 계획이 달라질 수 있다."],
   ["item", "치아가 복잡하지 않은 생활치수를 가진 치아는 [[즉일 근관치료]]가 가능하다."],
-  ["item", "치근단 병소의 종류, 즉 cyst, granuloma, abscess 등은 크기나 방사선 사진의 모양에 따라 판단하기에는 어려움이 많다."],
+  ["item", "치근단 병소의 종류, 즉 [[cyst]], [[granuloma]], [[abscess]] 등은 크기나 방사선 사진의 모양에 따라 판단하기에는 어려움이 많다."],
   ["item", "크기가 큰 경우나 [[cyst]]라고 생각되는 경우는 통상의 근관치료로 치유되기 어렵다고 생각하며 [[치근단 수술]]을 병행할 가능성이 높다."],
   ["item", "[[급성 치근단농양]]인 경우 의외로 빨리 치유되는 것을 볼 수 있으며 병소의 골재생도 양호한 것을 볼 수 있다."],
 
