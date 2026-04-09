@@ -19,16 +19,89 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--gray); line-height: 1.8; }
 .wrapper { display: flex; min-height: 100vh; }
+
+/* ── 모바일 헤더 ── */
 .mobile-hdr { display: none; background: var(--blue); color: #fff; padding: 12px 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 .menu-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; margin-right: 15px; }
-.sidebar { width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border); position: fixed; top: 0; bottom: 0; left: 0; z-index: 950; transition: transform 0.3s ease; }
-.sidebar-header { padding: 24px 20px; background: var(--blue-dark); color: #fff; }
-.sidebar-header h2 { font-size: 15px; font-weight: 800; letter-spacing: 0.5px; }
+
+/* ── 사이드바 ── */
+.sidebar {
+  width: var(--sidebar-width);
+  background: #fff;
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  /* 너비와 transform 모두 transition */
+  transition: width 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+/* PC 접힌 상태 */
+.sidebar.pc-collapsed {
+  width: 54px;
+}
+.sidebar.pc-collapsed .sidebar-nav,
+.sidebar.pc-collapsed .sidebar-comment {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.sidebar.pc-collapsed .sidebar-header-title {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+/* 사이드바 헤더 */
+.sidebar-header {
+  padding: 0 14px;
+  height: 60px;
+  background: var(--blue-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.sidebar-header-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+/* PC 햄버거 버튼 */
+.pc-toggle-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pc-toggle-btn:hover { background: rgba(255,255,255,0.18); }
+
+/* 사이드바 내부 레이아웃 */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  transition: opacity 0.2s ease;
+}
 .main-menu-btn { padding: 16px 20px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--blue); border-bottom: 1px solid #f0f0f0; }
 .main-menu-btn::after { content: '▼'; font-size: 10px; transition: 0.3s; }
 .main-menu-btn.collapsed::after { transform: rotate(-90deg); }
 #sub-menu-container { display: block; overflow: hidden; }
-
 .sub-chapter-btn {
   padding: 14px 20px 14px 35px;
   font-weight: 700;
@@ -40,95 +113,85 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
   transition: 0.2s;
 }
 .sub-chapter-btn:hover { background: #f0f7ff; color: var(--blue); }
-.sub-chapter-btn.active {
-  background: #f8f9fa;
-  border-left: 4px solid var(--blue);
-  color: var(--blue);
-}
+.sub-chapter-btn.active { background: #f8f9fa; border-left: 4px solid var(--blue); color: var(--blue); }
 
-.main-content { flex: 1; margin-left: var(--sidebar-width); padding: 40px; }
+/* 코멘트 영역 */
+.sidebar-comment {
+  padding: 20px;
+  background: #f8f9fa;
+  border-top: 1px solid var(--border);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--gray2);
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+.comment-title { font-weight: 800; color: var(--blue-dark); margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+.comment-content { white-space: pre-wrap; }
+
+/* ── 메인 콘텐츠 ── */
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 40px;
+  transition: margin-left 0.3s ease;
+}
+/* PC 접힌 상태의 메인 콘텐츠 */
+.main-content.pc-expanded {
+  margin-left: 54px;
+}
 .content-inner { max-width: 860px; margin: 0 auto; }
+
+/* 액션 바 */
 .action-bar { display: flex; gap: 10px; margin-bottom: 30px; position: sticky; top: 10px; z-index: 800; }
 .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 13px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .btn-primary { background: var(--blue); color: #fff; }
 .btn-secondary { background: #fff; border: 1px solid var(--border); color: var(--gray); }
 
+/* ── 항목 스타일 ── */
 .t-h1 { background: var(--blue); color: #fff; font-size: 16px; font-weight: 700; padding: 12px 16px; border-radius: 7px; margin: 40px 0 15px; }
 .t-h2 { background: var(--blue-light); color: var(--blue-dark); font-size: 14.5px; font-weight: 700; padding: 10px 16px; border-left: 4px solid var(--blue); margin: 30px 0 10px; }
-
-/* ── 항목 스타일 수정 (가로폭 고정 해제 및 자동 줄바꿈) ── */
-.t-item, .t-blue { 
-  background: #fff; 
-  border: 1px solid var(--border); 
-  padding: 10px 15px 10px 25px; 
-  border-radius: 7px; 
-  margin-bottom: 8px; 
+.t-item, .t-blue {
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 10px 15px 10px 25px;
+  border-radius: 7px;
+  margin-bottom: 8px;
   position: relative;
-  /* 핵심 수정: 문장 단위 줄바꿈 최적화 */
-  word-break: keep-all; 
-  overflow-wrap: anywhere; 
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 .t-item::before { content:'•'; position:absolute; left:10px; color:var(--blue); }
 .t-blue { border-left: 4px solid var(--blue); background: #f8fbff; }
 
-/* ── 빈칸(괄호) 스타일 수정 (덩어리 현상 방지) ── */
-.blank { 
-  display: inline; /* inline-block에서 inline으로 변경하여 텍스트 흐름 유지 */
-  background: #1a1a2e; 
-  color: transparent; 
-  border-radius: 4px; 
-  padding: 2px 6px; 
-  cursor: pointer; 
-  transition: 0.2s; 
-  font-weight: 600; 
+/* ── 빈칸 ── */
+.blank {
+  display: inline;
+  background: #1a1a2e;
+  color: transparent;
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
   user-select: none;
-  /* 줄이 바뀌어도 배경색이 유지되도록 설정 */
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
 .blank.open { background: #dcfce7; color: #166534; border: 1.5px solid #86efac; }
 
+/* ── 모바일 ── */
 @media (max-width: 600px) {
   .mobile-hdr { display: flex; }
-  .sidebar { transform: translateX(-100%); top: 50px; }
+  .pc-toggle-btn { display: none; }
+  .sidebar { transform: translateX(-100%); top: 50px; width: var(--sidebar-width) !important; }
   .sidebar.active { transform: translateX(0); }
-  .main-content { margin-left: 0; padding: 75px 15px 40px; }
+  .sidebar.pc-collapsed .sidebar-nav,
+  .sidebar.pc-collapsed .sidebar-comment,
+  .sidebar.pc-collapsed .sidebar-header-title { opacity: 1; pointer-events: auto; }
+  .main-content { margin-left: 0 !important; padding: 75px 15px 40px; }
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 900; }
   .overlay.active { display: block; }
-}
-/* 사이드바를 유연하게 설정 */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-}
-
-.nav-container {
-  flex: 1; /* 메뉴 영역이 남는 공간을 다 차지하게 해서 코멘트를 아래로 밀어냄 */
-  overflow-y: auto;
-}
-
-/* 코멘트 영역 스타일 */
-.sidebar-comment {
-  padding: 20px;
-  background: #f8f9fa; /* 연한 회색 배경 */
-  border-top: 1px solid var(--border);
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--gray2);
-}
-
-.comment-title {
-  font-weight: 800;
-  color: var(--blue-dark);
-  margin-bottom: 8px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.comment-content {
-  white-space: pre-wrap; /* 줄바꿈 허용 */
 }
 </style>
 </head>
@@ -141,34 +204,34 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
 
 <div class="wrapper">
   <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-  
+
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <h2>PNUD_GWALHOBBANG</h2>
+      <button class="pc-toggle-btn" onclick="toggleSidebarPC()" title="사이드바 접기 / 펼치기">☰</button>
+      <span class="sidebar-header-title">PNUD_GWALHOBBANG</span>
     </div>
-    <div class="nav-container">
+
+    <div class="sidebar-nav">
       <div class="main-menu-btn" id="gn-btn" onclick="toggleMainMenu()">근관치료학</div>
       <div id="sub-menu-container">
         <div class="sub-chapter-btn active" onclick="loadChapter('chap2', this)">단비족 2장</div>
         <div class="sub-chapter-btn" onclick="loadChapter('chap4', this)">단비족 4장</div>
       </div>
     </div>
+
     <div class="sidebar-comment">
-    <div class="comment-title">참고사항</div>
-    <div class="comment-content">선배님께 작년엔 객관+단답(객관 많이)으로 전해들었습니다! 조금 지엽적인 빈칸도 많은데 이 점 고려해서 공부해주세요! 중간고사 파이팅!
+      <div class="comment-title">참고사항</div>
+      <div class="comment-content">선배님께 작년엔 객관+단답(객관 많이)으로 전해들었습니다! 조금 지엽적인 빈칸도 많은데 이 점 고려해서 공부해주세요! 중간고사 파이팅!</div>
     </div>
-  </div>
   </aside>
 
-  <main class="main-content">
+  <main class="main-content" id="main-content">
     <div class="content-inner">
       <div class="action-bar">
         <button class="btn btn-primary" onclick="revealAll()">전체 정답 보기</button>
         <button class="btn btn-secondary" onclick="resetAll()">학습 초기화</button>
       </div>
-
-      <div id="learning-content">
-        </div>
+      <div id="learning-content"></div>
     </div>
   </main>
 </div>
@@ -1155,15 +1218,36 @@ const CHAPTER_DATA = {
   ]
 };
 
-/* ── 렌더링 로직 ── */
+/* ── PC 사이드바 토글 ── */
+function toggleSidebarPC() {
+  const sidebar = document.getElementById('sidebar');
+  const main = document.getElementById('main-content');
+  sidebar.classList.toggle('pc-collapsed');
+  main.classList.toggle('pc-expanded');
+}
+
+/* ── 모바일 사이드바 토글 ── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+/* ── 메인 메뉴 토글 ── */
+function toggleMainMenu() {
+  const menu = document.getElementById('sub-menu-container');
+  const btn = document.getElementById('gn-btn');
+  const isHidden = menu.style.display === 'none';
+  menu.style.display = isHidden ? 'block' : 'none';
+  btn.classList.toggle('collapsed', !isHidden);
+}
+
+/* ── 렌더링 ── */
 function buildContent(data) {
   const container = document.getElementById('learning-content');
   container.innerHTML = '';
-
   data.forEach(([type, text]) => {
     const el = document.createElement('div');
     el.className = 't-' + type;
-
     if (['h1', 'h2', 'h3'].includes(type)) {
       el.textContent = text;
     } else {
@@ -1171,12 +1255,9 @@ function buildContent(data) {
     }
     container.appendChild(el);
   });
-
   document.querySelectorAll('.blank').forEach(b => {
     b.onclick = () => b.classList.toggle('open');
   });
-  
-  // 페이지 상단으로 스크롤 이동
   window.scrollTo(0, 0);
 }
 
@@ -1187,41 +1268,21 @@ function renderBlanks(text) {
   });
 }
 
-/* ── 챕터 전환 로직 ── */
+/* ── 챕터 전환 ── */
 function loadChapter(chapKey, btnEl) {
   const data = CHAPTER_DATA[chapKey];
   if (!data) return;
-
-  // 버튼 활성화 스타일 관리
   document.querySelectorAll('.sub-chapter-btn').forEach(btn => btn.classList.remove('active'));
   btnEl.classList.add('active');
-
   buildContent(data);
-  
-  // 모바일 환경일 경우 챕터 클릭 시 사이드바 닫기
-  if (window.innerWidth <= 600) {
-    toggleSidebar();
-  }
+  if (window.innerWidth <= 600) toggleSidebar();
 }
 
-/* ── UI 제어 ── */
-function toggleMainMenu() {
-  const menu = document.getElementById('sub-menu-container');
-  const btn = document.getElementById('gn-btn');
-  const isHidden = menu.style.display === 'none';
-  menu.style.display = isHidden ? 'block' : 'none';
-  btn.classList.toggle('collapsed', !isHidden);
-}
-
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('active');
-  document.getElementById('overlay').classList.toggle('active');
-}
-
+/* ── 빈칸 제어 ── */
 function revealAll() { document.querySelectorAll('.blank').forEach(b => b.classList.add('open')); }
-function resetAll() { document.querySelectorAll('.blank').forEach(b => b.classList.remove('open')); }
+function resetAll()  { document.querySelectorAll('.blank').forEach(b => b.classList.remove('open')); }
 
-// 초기 실행 시 2장 데이터를 먼저 로드
+/* ── 초기화 ── */
 window.onload = () => {
   const firstBtn = document.querySelector('.sub-chapter-btn');
   loadChapter('chap2', firstBtn);
