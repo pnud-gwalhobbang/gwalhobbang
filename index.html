@@ -15,9 +15,22 @@
   --gray2: #6b7280;
   --border: #e5e7eb;
   --sidebar-width: 270px;
+  --item-bg: #ffffff;
 }
+
+/* ── 다크모드 설정 ── */
+body.dark-mode {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --gray: #e5e7eb;
+  --gray2: #9ca3af;
+  --border: #334155;
+  --blue-light: #1e293b;
+  --item-bg: #242424;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--gray); line-height: 1.8; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--gray); line-height: 1.8; transition: background 0.3s, color 0.3s; }
 .wrapper { display: flex; min-height: 100vh; }
 
 /* ── 모바일 헤더 ── */
@@ -27,178 +40,141 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
 /* ── 사이드바 ── */
 .sidebar {
   width: var(--sidebar-width);
-  background: #fff;
+  background: var(--surface);
   border-right: 1px solid var(--border);
   position: fixed;
   top: 0; bottom: 0; left: 0;
   z-index: 950;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease, transform 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease, background 0.3s;
   overflow: hidden;
 }
 
-/* PC 접힌 상태 */
-.sidebar.pc-collapsed {
-  width: 54px;
-}
+.sidebar.pc-collapsed { width: 54px; }
 .sidebar.pc-collapsed .sidebar-nav,
-.sidebar.pc-collapsed .sidebar-comment {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-}
-.sidebar.pc-collapsed .sidebar-header-title {
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
+.sidebar.pc-collapsed .darkmode-container,
+.sidebar.pc-collapsed .sidebar-comment,
+.sidebar.pc-collapsed .sidebar-header-title { opacity: 0; pointer-events: none; }
 
-/* 사이드바 헤더 */
 .sidebar-header {
-  padding: 0 14px;
-  height: 60px;
-  background: var(--blue-dark);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  padding: 0 14px; height: 60px; background: var(--blue-dark); color: #fff; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
 }
-.sidebar-header-title {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: opacity 0.2s ease;
-}
+.sidebar-header-title { font-size: 14px; font-weight: 800; white-space: nowrap; transition: opacity 0.2s; }
 
-/* PC 햄버거 버튼 */
 .pc-toggle-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  flex-shrink: 0;
-  line-height: 1;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 6px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
 }
 .pc-toggle-btn:hover { background: rgba(255,255,255,0.18); }
 
-/* 사이드바 내부 레이아웃 */
-.sidebar-nav {
-  flex: 1;
-  overflow-y: auto;
-  transition: opacity 0.2s ease;
-}
-.main-menu-btn { padding: 16px 20px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--blue); border-bottom: 1px solid #f0f0f0; }
+.sidebar-nav { flex: 1; overflow-y: auto; }
+.main-menu-btn { padding: 16px 20px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--blue); border-bottom: 1px solid var(--border); }
 .main-menu-btn::after { content: '▼'; font-size: 10px; transition: 0.3s; }
 .main-menu-btn.collapsed::after { transform: rotate(-90deg); }
-#sub-menu-container { display: block; overflow: hidden; }
-.sub-chapter-btn {
-  padding: 14px 20px 14px 35px;
-  font-weight: 700;
-  font-size: 13.5px;
-  color: var(--gray);
-  background: #fff;
-  border-left: 4px solid transparent;
+
+.sub-chapter-btn { padding: 14px 20px 14px 35px; font-weight: 700; font-size: 13.5px; color: var(--gray); cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
+.sub-chapter-btn:hover { background: var(--blue-light); color: var(--blue); }
+.sub-chapter-btn.active { background: var(--blue-light); border-left: 4px solid var(--blue); color: var(--blue); }
+.sub-chapter-btn.light-btn { padding-left: 50px; font-size: 12.5px; color: var(--gray2); }
+
+/* ── 다크모드 토글 스위치 (요청사항 반영) ── */
+.darkmode-container {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between; /* 좌측 텍스트, 우측 버튼 */
+  align-items: center;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.darkmode-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--blue-dark);
+}
+body.dark-mode .darkmode-label { color: #fff; } /* 다크모드 시 라벨 흰색 */
+
+.toggle-switch {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  background-color: #9ca3af;
+  border-radius: 11px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.3s;
 }
-.sub-chapter-btn:hover { background: #f0f7ff; color: var(--blue); }
-.sub-chapter-btn.active { background: #f8f9fa; border-left: 4px solid var(--blue); color: var(--blue); }
-
-/* Light 버튼 스타일 (들여쓰기로 하위 느낌) */
-.sub-chapter-btn.light-btn {
-  padding-left: 50px;
-  font-size: 12.5px;
-  color: var(--gray2);
-  background: #fafafa;
+.toggle-handle {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.sub-chapter-btn.light-btn:hover { background: #f0f7ff; color: var(--blue); }
-.sub-chapter-btn.light-btn.active { background: #f8f9fa; border-left: 4px solid #60a5fa; color: #1d4ed8; }
-.sub-chapter-btn.light-btn::before { content: '⚡ '; font-size: 11px; }
+body.dark-mode .toggle-switch { background-color: var(--blue); }
+body.dark-mode .toggle-handle { transform: translateX(20px); }
 
-/* 코멘트 영역 */
+/* ── 코멘트 영역 ── */
 .sidebar-comment {
   padding: 20px;
-  background: #f8f9fa;
+  background: var(--blue-light);
   border-top: 1px solid var(--border);
   font-size: 12.5px;
   line-height: 1.6;
   color: var(--gray2);
   flex-shrink: 0;
-  transition: opacity 0.2s ease;
 }
-.comment-title { font-weight: 800; color: var(--blue-dark); margin-bottom: 8px; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-.comment-content { white-space: pre-wrap; }
+.comment-title { font-weight: 800; color: var(--blue-dark); margin-bottom: 8px; font-size: 13px; }
+body.dark-mode .comment-title { color: #fff; }
 
 /* ── 메인 콘텐츠 ── */
-.main-content {
-  flex: 1;
-  margin-left: var(--sidebar-width);
-  padding: 40px;
-  transition: margin-left 0.3s ease;
-}
-/* PC 접힌 상태의 메인 콘텐츠 */
-.main-content.pc-expanded {
-  margin-left: 54px;
-}
+.main-content { flex: 1; margin-left: var(--sidebar-width); padding: 40px; transition: margin-left 0.3s ease; }
+.main-content.pc-expanded { margin-left: 54px; }
 .content-inner { max-width: 860px; margin: 0 auto; }
 
-/* 액션 바 */
 .action-bar { display: flex; gap: 10px; margin-bottom: 30px; position: sticky; top: 10px; z-index: 800; }
 .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 13px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .btn-primary { background: var(--blue); color: #fff; }
-.btn-secondary { background: #fff; border: 1px solid var(--border); color: var(--gray); }
+.btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--gray); }
 
 /* ── 항목 스타일 ── */
 .t-h1 { background: var(--blue); color: #fff; font-size: 16px; font-weight: 700; padding: 12px 16px; border-radius: 7px; margin: 40px 0 15px; }
-.t-h2 { background: var(--blue-light); color: var(--blue-dark); font-size: 14.5px; font-weight: 700; padding: 10px 16px; border-left: 4px solid var(--blue); margin: 30px 0 10px; }
+
+/* H2 스타일 (다크모드 시 흰색 글자 적용) */
+.t-h2 { 
+  background: var(--blue-light); 
+  color: var(--blue-dark); 
+  font-size: 14.5px; 
+  font-weight: 700; 
+  padding: 10px 16px; 
+  border-left: 4px solid var(--blue); 
+  margin: 30px 0 10px; 
+  transition: 0.3s;
+}
+body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; } /* 다크모드 시 h2 글자 흰색 */
+
 .t-item, .t-blue {
-  background: #fff;
+  background: var(--item-bg);
   border: 1px solid var(--border);
   padding: 10px 15px 10px 25px;
   border-radius: 7px;
   margin-bottom: 8px;
   position: relative;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+  transition: 0.3s;
 }
 .t-item::before { content:'•'; position:absolute; left:10px; color:var(--blue); }
-.t-blue { border-left: 4px solid var(--blue); background: #f8fbff; }
+.t-blue { border-left: 4px solid var(--blue); background: var(--blue-light); }
 
-/* ── 빈칸 ── */
 .blank {
-  display: inline;
-  background: #1a1a2e;
-  color: transparent;
-  border-radius: 4px;
-  padding: 2px 6px;
-  cursor: pointer;
-  transition: 0.2s;
-  font-weight: 600;
-  user-select: none;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  display: inline; background: #1a1a2e; color: transparent !important; border-radius: 4px; padding: 2px 6px; cursor: pointer; transition: 0.2s; font-weight: 600; user-select: none;
 }
-.blank.open { background: #dcfce7; color: #166534; border: 1.5px solid #86efac; }
+.blank.open { background: #dcfce7 !important; color: #166534 !important; border: 1.5px solid #86efac; }
 
-/* ── 모바일 ── */
 @media (max-width: 600px) {
   .mobile-hdr { display: flex; }
-  .pc-toggle-btn { display: none; }
   .sidebar { transform: translateX(-100%); top: 50px; width: var(--sidebar-width) !important; }
   .sidebar.active { transform: translateX(0); }
-  .sidebar.pc-collapsed .sidebar-nav,
-  .sidebar.pc-collapsed .sidebar-comment,
-  .sidebar.pc-collapsed .sidebar-header-title { opacity: 1; pointer-events: auto; }
   .main-content { margin-left: 0 !important; padding: 75px 15px 40px; }
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 900; }
   .overlay.active { display: block; }
@@ -227,6 +203,13 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
         <div class="sub-chapter-btn active" onclick="loadChapter('chap2', this)">단비족 2장</div>
         <div class="sub-chapter-btn light-btn" onclick="loadChapter('chap2light', this)">2장 Light (bold만)</div>
         <div class="sub-chapter-btn" onclick="loadChapter('chap4', this)">단비족 4장</div>
+      </div>
+    </div>
+
+    <div class="darkmode-container">
+      <div class="darkmode-label">Dark Mode</div>
+      <div class="toggle-switch" onclick="toggleDarkMode()">
+        <div class="toggle-handle"></div>
       </div>
     </div>
 
@@ -1929,19 +1912,28 @@ function toggleSidebar() {
 function toggleMainMenu() {
   const menu = document.getElementById('sub-menu-container');
   const btn = document.getElementById('gn-btn');
+  // 초기 상태가 inline style이 없을 수 있으므로 계산된 스타일 확인
   const isHidden = menu.style.display === 'none';
   menu.style.display = isHidden ? 'block' : 'none';
   btn.classList.toggle('collapsed', !isHidden);
 }
 
-/* ── 렌더링 ── */
+/* ── 다크모드 토글 (설정 저장 포함) ── */
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+/* ── 콘텐츠 렌더링 ── */
 function buildContent(data) {
   const container = document.getElementById('learning-content');
   container.innerHTML = '';
+  
   if (!data || data.length === 0) {
     container.innerHTML = '<div style="text-align:center;color:#9ca3af;padding:60px 20px;font-size:14px;">데이터를 입력해주세요.</div>';
     return;
   }
+
   data.forEach(([type, text]) => {
     const el = document.createElement('div');
     el.className = 't-' + type;
@@ -1952,12 +1944,15 @@ function buildContent(data) {
     }
     container.appendChild(el);
   });
+
+  // 빈칸 클릭 이벤트 연결
   document.querySelectorAll('.blank').forEach(b => {
     b.onclick = () => b.classList.toggle('open');
   });
   window.scrollTo(0, 0);
 }
 
+/* ── 빈칸 생성 (괄호 [[]] 처리) ── */
 function renderBlanks(text) {
   return text.replace(/\[\[(.+?)\]\]/g, (match, word) => {
     const minW = Math.max(45, word.length * 13) + 'px';
@@ -1968,18 +1963,32 @@ function renderBlanks(text) {
 /* ── 챕터 전환 ── */
 function loadChapter(chapKey, btnEl) {
   const data = CHAPTER_DATA[chapKey];
+  if(!data) return;
+
   document.querySelectorAll('.sub-chapter-btn').forEach(btn => btn.classList.remove('active'));
-  btnEl.classList.add('active');
+  if(btnEl) btnEl.classList.add('active');
+  
   buildContent(data);
-  if (window.innerWidth <= 600) toggleSidebar();
+  
+  // 모바일에서 메뉴 클릭 시 사이드바 닫기
+  if (window.innerWidth <= 600) {
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar.classList.contains('active')) toggleSidebar();
+  }
 }
 
-/* ── 빈칸 제어 ── */
+/* ── 전체 정답/초기화 제어 ── */
 function revealAll() { document.querySelectorAll('.blank').forEach(b => b.classList.add('open')); }
 function resetAll()  { document.querySelectorAll('.blank').forEach(b => b.classList.remove('open')); }
 
-/* ── 초기화 ── */
+/* ── 페이지 초기화 (가장 중요!) ── */
 window.onload = () => {
+  // 1. 저장된 테마(다크모드) 적용
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+
+  // 2. 첫 번째 챕터 로드 (기본값: chap2)
   const firstBtn = document.querySelector('.sub-chapter-btn');
   loadChapter('chap2', firstBtn);
 };
