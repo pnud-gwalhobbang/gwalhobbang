@@ -77,53 +77,30 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: va
 .sub-chapter-btn.active { background: var(--blue-light); border-left: 4px solid var(--blue); color: var(--blue); }
 .sub-chapter-btn.light-btn { padding-left: 50px; font-size: 12.5px; color: var(--gray2); }
 
-/* ── 다크모드 토글 스위치 (요청사항 반영) ── */
+/* ── 다크모드 토글 스위치 ── */
 .darkmode-container {
   padding: 15px 20px;
   display: flex;
-  justify-content: space-between; /* 좌측 텍스트, 우측 버튼 */
+  justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border);
   background: var(--surface);
 }
-.darkmode-label {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--blue-dark);
-}
-body.dark-mode .darkmode-label { color: #fff; } /* 다크모드 시 라벨 흰색 */
+.darkmode-label { font-size: 13px; font-weight: 800; color: var(--blue-dark); }
+body.dark-mode .darkmode-label { color: #fff; }
 
 .toggle-switch {
-  position: relative;
-  width: 42px;
-  height: 22px;
-  background-color: #9ca3af;
-  border-radius: 11px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  position: relative; width: 42px; height: 22px; background-color: #9ca3af; border-radius: 11px; cursor: pointer; transition: background-color 0.3s;
 }
 .toggle-handle {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  background-color: white;
-  border-radius: 50%;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background-color: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 body.dark-mode .toggle-switch { background-color: var(--blue); }
 body.dark-mode .toggle-handle { transform: translateX(20px); }
 
 /* ── 코멘트 영역 ── */
 .sidebar-comment {
-  padding: 20px;
-  background: var(--blue-light);
-  border-top: 1px solid var(--border);
-  font-size: 12.5px;
-  line-height: 1.6;
-  color: var(--gray2);
-  flex-shrink: 0;
+  padding: 20px; background: var(--blue-light); border-top: 1px solid var(--border); font-size: 12.5px; line-height: 1.6; color: var(--gray2); flex-shrink: 0;
 }
 .comment-title { font-weight: 800; color: var(--blue-dark); margin-bottom: 8px; font-size: 13px; }
 body.dark-mode .comment-title { color: #fff; }
@@ -140,57 +117,40 @@ body.dark-mode .comment-title { color: #fff; }
 
 /* ── 항목 스타일 ── */
 .t-h1 { background: var(--blue); color: #fff; font-size: 16px; font-weight: 700; padding: 12px 16px; border-radius: 7px; margin: 40px 0 15px; }
+body.dark-mode .t-h1 { background: #243c5a; color: #f1f5f9; box-shadow: inset 0 0 10px rgba(0,0,0,0.2); }
+body.dark-mode .btn-primary { background: #243c5a; color: #f1f5f9; border: 1px solid #334155; box-shadow: inset 0 0 8px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.3); }
 
-body.dark-mode .t-h1 {
-  background: #243c5a; /* 채도를 낮추고 깊이감을 더한 블루 (Blue 700) */
-  color: #f1f5f9;      /* 완전 흰색보다는 약간의 회색빛이 도는 화이트 */
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* 은은한 깊이감 */
-}
+.t-h2 { background: var(--blue-light); color: var(--blue-dark); font-size: 14.5px; font-weight: 700; padding: 10px 16px; border-left: 4px solid var(--blue); margin: 30px 0 10px; transition: 0.3s; }
+body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; }
 
-/* 다크모드 전용 버튼 스타일 (H1 스타일과 통일) */
-body.dark-mode .btn-primary {
-  background: #243c5a; /* H1과 동일한 채도 낮은 블루 */
-  color: #f1f5f9;      /* H1과 동일한 부드러운 화이트 */
-  border: 1px solid #334155;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.3);
-  transition: background 0.2s, transform 0.1s;
-}
-
-
-/* H2 스타일 (다크모드 시 흰색 글자 적용) */
-.t-h2 { 
-  background: var(--blue-light); 
-  color: var(--blue-dark); 
-  font-size: 14.5px; 
-  font-weight: 700; 
-  padding: 10px 16px; 
-  border-left: 4px solid var(--blue); 
-  margin: 30px 0 10px; 
-  transition: 0.3s;
-}
-body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; } /* 다크모드 시 h2 글자 흰색 */
-
-.t-item, .t-blue {
-  background: var(--item-bg);
-  border: 1px solid var(--border);
-  padding: 10px 15px 10px 25px;
-  border-radius: 7px;
-  margin-bottom: 8px;
-  position: relative;
-  transition: 0.3s;
-}
+.t-item, .t-blue { background: var(--item-bg); border: 1px solid var(--border); padding: 10px 15px 10px 25px; border-radius: 7px; margin-bottom: 8px; position: relative; transition: 0.3s; }
 .t-item::before { content:'•'; position:absolute; left:10px; color:var(--blue); }
 .t-blue { border-left: 4px solid var(--blue); background: var(--blue-light); }
 
-.blank {
-  display: inline; background: #1a1a2e; color: transparent !important; border-radius: 4px; padding: 2px 6px; cursor: pointer; transition: 0.2s; font-weight: 600; user-select: none;
-}
+.blank { display: inline; background: #1a1a2e; color: transparent !important; border-radius: 4px; padding: 2px 6px; cursor: pointer; transition: 0.2s; font-weight: 600; user-select: none; }
 .blank.open { background: #dcfce7 !important; color: #166534 !important; border: 1.5px solid #86efac; }
 
+/* ── 반응형 (수정된 부분) ── */
 @media (max-width: 600px) {
   .mobile-hdr { display: flex; }
-  .sidebar { transform: translateX(-100%); top: 50px; width: var(--sidebar-width) !important; }
+  
+  /* 사이드바 내부의 중복 헤더 숨김 */
+  .sidebar-header { display: none; } 
+  
+  /* 사이드바 위치 및 높이 조정 */
+  .sidebar { 
+    transform: translateX(-100%); 
+    top: 50px; 
+    height: calc(100vh - 50px);
+    width: var(--sidebar-width) !important; 
+  }
   .sidebar.active { transform: translateX(0); }
+  
+  /* PC 접힘 상태가 모바일 메뉴 표시를 방해하지 않도록 처리 */
+  .sidebar.pc-collapsed .sidebar-nav,
+  .sidebar.pc-collapsed .darkmode-container,
+  .sidebar.pc-collapsed .sidebar-comment { opacity: 1 !important; pointer-events: auto !important; }
+
   .main-content { margin-left: 0 !important; padding: 75px 15px 40px; }
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 900; }
   .overlay.active { display: block; }
@@ -217,7 +177,7 @@ body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; } /* 다크모드 �
       <div class="main-menu-btn" id="gn-btn" onclick="toggleMainMenu()">근관치료학</div>
       <div id="sub-menu-container">
         <div class="sub-chapter-btn active" onclick="loadChapter('chap2', this)">단비족 2장</div>
-        <div class="sub-chapter-btn light-btn" onclick="loadChapter('chap2light', this)">2장 Light (bold 위주)</div>
+        <div class="sub-chapter-btn light-btn" onclick="loadChapter('chap2light', this)">2장 Light (bold만)</div>
         <div class="sub-chapter-btn" onclick="loadChapter('chap4', this)">단비족 4장</div>
       </div>
     </div>
