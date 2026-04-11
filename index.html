@@ -146,7 +146,17 @@ body.dark-mode .t-h1 {
   color: #f1f5f9;      /* 완전 흰색보다는 약간의 회색빛이 도는 화이트 */
   box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* 은은한 깊이감 */
 }
-  
+
+/* 다크모드 전용 버튼 스타일 (H1 스타일과 통일) */
+body.dark-mode .btn-primary {
+  background: #243c5a; /* H1과 동일한 채도 낮은 블루 */
+  color: #f1f5f9;      /* H1과 동일한 부드러운 화이트 */
+  border: 1px solid #334155;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.3);
+  transition: background 0.2s, transform 0.1s;
+}
+
+
 /* H2 스타일 (다크모드 시 흰색 글자 적용) */
 .t-h2 { 
   background: var(--blue-light); 
