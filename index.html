@@ -127,17 +127,29 @@ body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; }
 .t-item::before { content:'•'; position:absolute; left:10px; color:var(--blue); }
 .t-blue { border-left: 4px solid var(--blue); background: var(--blue-light); }
 
-.blank { display: inline; background: #1a1a2e; color: transparent !important; border-radius: 4px; padding: 2px 6px; cursor: pointer; transition: 0.2s; font-weight: 600; user-select: none; }
-.blank.open { background: #dcfce7 !important; color: #166534 !important; border: 1.5px solid #86efac; }
+/* ── 빈칸 스타일 수정 ── */
+.blank { 
+  display: inline-block; /* 레이아웃 안정성을 위해 변경 */
+  background: #1a1a2e; 
+  color: transparent !important; 
+  border-radius: 4px; 
+  padding: 2px 6px; 
+  cursor: pointer; 
+  transition: 0.2s; 
+  font-weight: 600; 
+  user-select: none;
+  border: 1.5px solid transparent; /* 미리 투명한 테두리를 넣어서 크기 변화 방지 */
+}
+.blank.open { 
+  background: #dcfce7 !important; 
+  color: #166534 !important; 
+  border-color: #86efac !important; /* border 전체가 아닌 색상만 변경 */
+}
 
-/* ── 반응형 (수정된 부분) ── */
+/* ── 반응형 ── */
 @media (max-width: 600px) {
   .mobile-hdr { display: flex; }
-  
-  /* 사이드바 내부의 중복 헤더 숨김 */
   .sidebar-header { display: none; } 
-  
-  /* 사이드바 위치 및 높이 조정 */
   .sidebar { 
     transform: translateX(-100%); 
     top: 50px; 
@@ -145,12 +157,9 @@ body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; }
     width: var(--sidebar-width) !important; 
   }
   .sidebar.active { transform: translateX(0); }
-  
-  /* PC 접힘 상태가 모바일 메뉴 표시를 방해하지 않도록 처리 */
   .sidebar.pc-collapsed .sidebar-nav,
   .sidebar.pc-collapsed .darkmode-container,
   .sidebar.pc-collapsed .sidebar-comment { opacity: 1 !important; pointer-events: auto !important; }
-
   .main-content { margin-left: 0 !important; padding: 75px 15px 40px; }
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 900; }
   .overlay.active { display: block; }
@@ -169,7 +178,7 @@ body.dark-mode .t-h2 { color: #ffffff; background: #2d3748; }
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <button class="pc-toggle-btn" onclick="toggleSidebarPC()" title="사이드바 접기 / 펼치기">☰</button>
+      <button class="pc-toggle-btn" onclick="toggleSidebarPC()">☰</button>
       <span class="sidebar-header-title">PNUD_GWALHOBBANG</span>
     </div>
 
